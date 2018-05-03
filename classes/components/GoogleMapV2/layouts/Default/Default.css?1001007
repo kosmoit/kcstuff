@@ -1,0 +1,8 @@
+.map-widget .disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.map-widget iframe {
+  display: block;
+}
