@@ -1,0 +1,30 @@
+---
+- name: Ensure apache is installed and started
+  hosts: web
+  become: yes
+  vars:
+    httpd_packages:
+      - httpd
+      - mod_wsgi
+    apache_test_message: This is a test message
+    apache_webserver_port: 80
+
+  tasks:
+    - name: Ensure httpd packages are present
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ httpd_packages }}"
+      notify: restart-apache-service
+      
+    - name: Ensure httpd is started and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart-apache-service
+      service:
+        name: httpd
+        state: restarted
